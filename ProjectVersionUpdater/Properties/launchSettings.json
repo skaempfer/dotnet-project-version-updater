@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProjectVersionUpdater": {
+      "commandName": "Project",
+      "commandLineArgs": " --update major --dependants"
+    }
+  }
+}
