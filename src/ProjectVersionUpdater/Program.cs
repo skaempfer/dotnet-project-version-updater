@@ -15,10 +15,10 @@ public static class Program
 {
     static Program()
     {
-        VisualStudioInstance net5Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 5);
+        VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
         if (!MSBuildLocator.IsRegistered)
         {
-            MSBuildLocator.RegisterInstance(net5Instance);
+            MSBuildLocator.RegisterInstance(net6Instance);
         }
     }
 
