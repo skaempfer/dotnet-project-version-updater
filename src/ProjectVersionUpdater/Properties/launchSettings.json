@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "ProjectVersionUpdater": {
+    "Update example ProjectA": {
       "commandName": "Project",
-      "commandLineArgs": " --update major --dependants"
+      "commandLineArgs": "--update major --dependants $(MSBuildProjectDirectory)\\..\\..\\example\\ProjectA\\ProjectA.csproj"
     }
   }
 }
