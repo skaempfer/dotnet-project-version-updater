@@ -1,0 +1,1 @@
+& dotnet pack $PSScriptRoot\..\src\ProjectVersionUpdater\ProjectVersionUpdater.csproj -o $PSScriptRoot\nuget
