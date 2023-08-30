@@ -1,12 +1,5 @@
 {
   "version": 1,
   "isRoot": true,
-  "tools": {
-    "projectversionupdater": {
-      "version": "0.1.0",
-      "commands": [
-        "update-project"
-      ]
-    }
-  }
+  "tools": {}
 }
