@@ -3,9 +3,10 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        <Version>0.1.0</Version>
+        <VersionPrefix>0.1.0</VersionPrefix>
         <AssemblyName>ProjectVersionUpdater</AssemblyName>
         <RootNamespace>ProjectVersionUpdater</RootNamespace>
+        <VersionSuffix Condition="$(Configuration) == 'Continuous'">$([System.DateTime]::Now.ToString("yyyyMMddTHHmmss"))</VersionSuffix>
              
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>update-project</ToolCommandName>
