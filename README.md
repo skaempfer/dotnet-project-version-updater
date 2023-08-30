@@ -72,25 +72,3 @@ Update multiple projects to its next release version. Update all their dependant
 ```powershell
 PS> dotnet update-project --update major --dependants .\Project.csproj .\Project.Abstractions.csproj
 ```
-
-## Local execution from development environment
-
-For local execution of the application you have to three options:
-
-1. Using the command line. Located in the project folder execute the application by running `dotnet run -- <path/to/project/file/to/update>`.
-2. [Using Visual Studio for running and debugging.](https://docs.microsoft.com/en-us/dotnet/core/tutorials/debugging-with-visual-studio)
-3. [Using Visual Studio Code for running and debugging.](https://docs.microsoft.com/en-us/dotnet/core/tutorials/debugging-with-visual-studio-code)
-
-## Build and Publish
-
-Prerequisites:
-
-For the `dotnet nuget` tool to work correctly with authenticated Azure DevOps Artifacts feeds make sure that you have installed Microsoft's Nuget Credential Provider as described [here](https://github.com/Microsoft/artifacts-credprovider/#setup).  
-
-To build and publish this project as a dotnet cli tool run the following commands:
-
-```powershell
-PS> dotnet pack -c Release
-PS> dotnet nuget push -s <Feed> -k <Key> .\nupkg\<packagename>.nupkg
-```
-
