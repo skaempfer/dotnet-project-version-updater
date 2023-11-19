@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectVersionUpdater", "ProjectVersionUpdater\ProjectVersionUpdater.csproj", "{C9C3B324-EC80-484D-B37B-291D49D5BDBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectVersionUpdater.Tests", "ProjectVersionUpdater.Tests\ProjectVersionUpdater.Tests.csproj", "{E7321687-E7CD-4067-BFEC-58860BA9B979}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EC518A76-A083-42D0-9F9A-ADDCA591A7A4}"
+	ProjectSection(SolutionItems) = preProject
+		..\global.json = ..\global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
