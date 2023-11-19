@@ -132,7 +132,7 @@ public class ProjectVersionUpdater
     private IEnumerable<Microsoft.CodeAnalysis.Project> GetDependants()
     {
         Microsoft.CodeAnalysis.ProjectDependencyGraph dependencyGraph = this.Solution.GetProjectDependencyGraph();
-        HashSet<Microsoft.CodeAnalysis.ProjectId> dependantIds = new ();
+        HashSet<Microsoft.CodeAnalysis.ProjectId> dependantIds = new();
         foreach (Microsoft.CodeAnalysis.Project project in this.ProjectsToUpdate)
         {
             IEnumerable<Microsoft.CodeAnalysis.ProjectId> projectDependants = dependencyGraph.GetProjectsThatTransitivelyDependOnThisProject(project.Id);
@@ -147,7 +147,7 @@ public class ProjectVersionUpdater
 
     private bool IsPrerelease()
     {
-        List<Microsoft.Build.Evaluation.Project> msbuildProjects = new ();
+        List<Microsoft.Build.Evaluation.Project> msbuildProjects = new();
         foreach (Microsoft.CodeAnalysis.Project solutionProject in this.ProjectsToUpdate)
         {
             msbuildProjects.Add(this.ProjectAdapter.LoadProject(solutionProject));

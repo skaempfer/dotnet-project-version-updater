@@ -78,30 +78,30 @@ public static class Program
     }
 }
 
-  public interface IMsbuildProjectAdapter
-  {
-      Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject);
+public interface IMsbuildProjectAdapter
+{
+    Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject);
 
-      void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject);
-  }
+    void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject);
+}
 
-  public class FileSystemProjectAdapter : IMsbuildProjectAdapter
-  {
-      private readonly Microsoft.Build.Evaluation.ProjectCollection collection = new ();
+public class FileSystemProjectAdapter : IMsbuildProjectAdapter
+{
+    private readonly Microsoft.Build.Evaluation.ProjectCollection collection = new();
 
-      private readonly Dictionary<Microsoft.CodeAnalysis.Project, Microsoft.Build.Evaluation.Project> lookup = new ();
+    private readonly Dictionary<Microsoft.CodeAnalysis.Project, Microsoft.Build.Evaluation.Project> lookup = new();
 
-      public Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject)
-      {
-          if (!this.lookup.TryGetValue(solutionProject, out Microsoft.Build.Evaluation.Project buildProject))
-          {
-              buildProject = new Microsoft.Build.Evaluation.Project(ProjectRootElement.Open(solutionProject.FilePath, this.collection, preserveFormatting: true));
-              this.lookup.Add(solutionProject, buildProject);
-          }
+    public Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject)
+    {
+        if (!this.lookup.TryGetValue(solutionProject, out Microsoft.Build.Evaluation.Project buildProject))
+        {
+            buildProject = new Microsoft.Build.Evaluation.Project(ProjectRootElement.Open(solutionProject.FilePath, this.collection, preserveFormatting: true));
+            this.lookup.Add(solutionProject, buildProject);
+        }
 
-          return buildProject;
-      }
+        return buildProject;
+    }
 
-      public void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject)
-          => msbuildProject.Save();
-  }
+    public void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject)
+        => msbuildProject.Save();
+}

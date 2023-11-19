@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Xml;
+
 using Microsoft.Build.Locator;
 
 using NuGet.Versioning;
+
 using Xunit;
 
 namespace ProjectVersionUpdater.Tests;
@@ -15,7 +17,7 @@ public class ProjectExtensionsTests
         VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
         if (!MSBuildLocator.IsRegistered)
         {
-          MSBuildLocator.RegisterInstance(net6Instance);
+            MSBuildLocator.RegisterInstance(net6Instance);
         }
     }
 
@@ -47,7 +49,7 @@ public class ProjectExtensionsTests
         SemanticVersion projectVersion = sut.GetVersion();
 
         // Assert
-        Assert.Null( projectVersion);
+        Assert.Null(projectVersion);
     }
 
     [Fact]

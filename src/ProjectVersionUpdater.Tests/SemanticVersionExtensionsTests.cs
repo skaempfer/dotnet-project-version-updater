@@ -1,4 +1,5 @@
 ﻿using NuGet.Versioning;
+
 using Xunit;
 
 namespace ProjectVersionUpdater;
