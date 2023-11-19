@@ -12,22 +12,17 @@ Increase the version of project `ExampleProject` by one minor version and make i
 PS> dotnet update-project --update minor --prerelease --dependants .\ExampleProject.csproj
 ```
 
+## Prerequisites
+
+- .NET >= 6.0.413
+- PowerShell Core is recommended for running all commands in this repository
+
 ## Installation
 
-### First time installation
-
-If you want to install this tool in your workspace then type the following command:
+To install this tool in your workspace execute the following command:
 
 ```powershell
 PS> dotnet tool install --local ProjectVersionUpdater
-```
-
-### Restore
-
-If this tool is already a known dependency in your workspace then type the following command to restore it:
-
-```powershell
-PS> dotnet tool restore
 ```
 
 ## General Usage
