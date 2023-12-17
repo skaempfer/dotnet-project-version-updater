@@ -21,47 +21,7 @@ public class ProjectVersionUpdaterTests
     }
 
     private Microsoft.CodeAnalysis.Solution solution;
-
     private IMsbuildProjectAdapter projectAdapter;
-
-    private Microsoft.CodeAnalysis.Project dependantSolutionProject;
-
-    private Microsoft.Build.Evaluation.Project dependant;
-
-    private readonly string dependantTemplate = @"
-<Project Sdk=""Microsoft.NET.Sdk"">
-<PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>{0}</Version>
-</PropertyGroup >
-</Project>
-";
-
-    private Microsoft.CodeAnalysis.Project dependency1SolutionProject;
-
-    private Microsoft.Build.Evaluation.Project dependency1;
-
-    private readonly string dependencyTemplate1 = @"
-<Project Sdk=""Microsoft.NET.Sdk"">
-<PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>{0}</Version>
-</PropertyGroup >
-</Project>
-";
-
-    private Microsoft.CodeAnalysis.Project dependency2SolutionProject;
-
-    private Microsoft.Build.Evaluation.Project dependency2;
-
-    private readonly string dependencyTemplate2 = @"
-<Project Sdk=""Microsoft.NET.Sdk"">
-<PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>{0}</Version>
-</PropertyGroup >
-</Project>
-";
 
     [Theory]
     [InlineData("2.0.0", VersionPart.Major, false, "3.0.0")]
@@ -80,13 +40,13 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(version);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.dependency1SolutionProject, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseVersion(update, prerelease);
 
         // Assert
-        Assert.Equal(expectedVersion, this.dependency1.GetVersion().ToString());
+        Assert.Equal(expectedVersion, this.projectB.GetVersion().ToString());
     }
 
     [Theory]
@@ -98,13 +58,13 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(dependencyVersion, dependantVersion);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.dependency1SolutionProject, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseDependantsVersion();
 
         // Assert
-        Assert.Equal(expectedVersion, this.dependant.GetVersion().ToString());
+        Assert.Equal(expectedVersion, this.projectA.GetVersion().ToString());
     }
 
     [Theory]
@@ -116,14 +76,37 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(dependency1Version, dependency2Version, dependantVersion);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(new[] { this.dependency1SolutionProject, this.dependency2SolutionProject }, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(new[] { this.solutionProjectB, this.solutionProjectC }, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseDependantsVersion();
 
         // Assert
-        Assert.Equal(expectedVersion, this.dependant.GetVersion().ToString());
+        Assert.Equal(expectedVersion, this.projectA.GetVersion().ToString());
     }
+
+    /***
+     * Test projects with following structure: A ==> B,C
+     * where A has a dependency on B and C
+     ***/
+
+    private Microsoft.CodeAnalysis.Project solutionProjectA;
+    private Microsoft.Build.Evaluation.Project projectA;
+
+    private Microsoft.CodeAnalysis.Project solutionProjectB;
+    private Microsoft.Build.Evaluation.Project projectB;
+
+    private Microsoft.CodeAnalysis.Project solutionProjectC;
+    private Microsoft.Build.Evaluation.Project projectC;
+
+    private readonly string projectTemplate = @"
+<Project Sdk=""Microsoft.NET.Sdk"">
+<PropertyGroup>
+    <TargetFrameworks>net6;net7</TargetFrameworks>
+    <Version>{0}</Version>
+</PropertyGroup >
+</Project>
+";
 
     private void SetupTestData(string dependencyVersion) => this.SetupTestData(dependencyVersion, dependencyVersion, "1.0.0");
 
@@ -131,30 +114,30 @@ public class ProjectVersionUpdaterTests
 
     private void SetupTestData(string dependency1Version, string dependency2Version, string dependantVersion)
     {
-        Microsoft.CodeAnalysis.ProjectId dependantSolutionProjectId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
-        Microsoft.CodeAnalysis.ProjectId dependencySolution1ProjectId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
-        Microsoft.CodeAnalysis.ProjectId dependencySolution2ProjectId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
+        Microsoft.CodeAnalysis.ProjectId solutionProjectAId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
+        Microsoft.CodeAnalysis.ProjectId solutionProjectBId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
+        Microsoft.CodeAnalysis.ProjectId solutionProjectCId = Microsoft.CodeAnalysis.ProjectId.CreateNewId();
 
         this.solution = new Microsoft.CodeAnalysis.AdhocWorkspace().CurrentSolution
-            .AddProject(dependantSolutionProjectId, "Dependant", "Dependant", Microsoft.CodeAnalysis.LanguageNames.CSharp)
-            .AddProject(dependencySolution1ProjectId, "Dependency1", "Dependency1", Microsoft.CodeAnalysis.LanguageNames.CSharp)
-            .AddProject(dependencySolution2ProjectId, "Dependency2", "Dependency2", Microsoft.CodeAnalysis.LanguageNames.CSharp)
-            .AddProjectReference(dependantSolutionProjectId, new Microsoft.CodeAnalysis.ProjectReference(dependencySolution1ProjectId))
-            .AddProjectReference(dependantSolutionProjectId, new Microsoft.CodeAnalysis.ProjectReference(dependencySolution2ProjectId));
+            .AddProject(solutionProjectAId, "A", "A", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .AddProject(solutionProjectBId, "B", "B", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .AddProject(solutionProjectCId, "C", "C", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .AddProjectReference(solutionProjectAId, new Microsoft.CodeAnalysis.ProjectReference(solutionProjectBId))
+            .AddProjectReference(solutionProjectAId, new Microsoft.CodeAnalysis.ProjectReference(solutionProjectCId));
 
-        this.dependantSolutionProject = this.solution.GetProject(dependantSolutionProjectId);
-        this.dependency1SolutionProject = this.solution.GetProject(dependencySolution1ProjectId);
-        this.dependency2SolutionProject = this.solution.GetProject(dependencySolution2ProjectId);
+        this.solutionProjectA = this.solution.GetProject(solutionProjectAId);
+        this.solutionProjectB = this.solution.GetProject(solutionProjectBId);
+        this.solutionProjectC = this.solution.GetProject(solutionProjectCId);
 
-        this.dependency1 = new(XmlReader.Create(new StringReader(string.Format(this.dependencyTemplate1, dependency1Version))));
-        this.dependency2 = new(XmlReader.Create(new StringReader(string.Format(this.dependencyTemplate2, dependency2Version))));
-        this.dependant = new(XmlReader.Create(new StringReader(string.Format(this.dependantTemplate, dependantVersion))));
+        this.projectB = new(XmlReader.Create(new StringReader(string.Format(this.projectTemplate, dependency1Version))));
+        this.projectC = new(XmlReader.Create(new StringReader(string.Format(this.projectTemplate, dependency2Version))));
+        this.projectA = new(XmlReader.Create(new StringReader(string.Format(this.projectTemplate, dependantVersion))));
 
         this.projectAdapter = new InMemoryProjectAdapter(new Dictionary<Microsoft.CodeAnalysis.Project, Microsoft.Build.Evaluation.Project>
         {
-            { this.dependency1SolutionProject, this.dependency1 },
-            { this.dependency2SolutionProject, this.dependency2 },
-            { this.dependantSolutionProject, this.dependant },
+            { this.solutionProjectB, this.projectB },
+            { this.solutionProjectC, this.projectC },
+            { this.solutionProjectA, this.projectA },
         });
     }
 }

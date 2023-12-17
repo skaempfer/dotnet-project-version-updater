@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace ProjectVersionUpdater;
+namespace ProjectVersionUpdater.Tests;
 
 public class SemanticVersionExtensionsTests
 {

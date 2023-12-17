@@ -24,7 +24,7 @@ public class ProjectExtensionsTests
     private readonly string nonVersionedProject = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 </PropertyGroup >
 </Project>
 ";
@@ -32,7 +32,7 @@ public class ProjectExtensionsTests
     private readonly string versionedProjectTemplate = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>{0}</Version>
 </PropertyGroup >
 </Project>
@@ -69,7 +69,6 @@ public class ProjectExtensionsTests
     [Fact]
     public void SetVersion_NoVersionProperty_AddsVersion()
     {
-        // Arrange
         // Arrange
         using XmlReader versionedProject = XmlReader.Create(new StringReader(this.nonVersionedProject));
         Microsoft.Build.Evaluation.Project sut = new Microsoft.Build.Evaluation.Project(versionedProject);
