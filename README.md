@@ -2,6 +2,8 @@
 
 Update a project's version with the option to also increase the version of all projects inside a solution dependening on this project.
 
+[![Nuget](https://img.shields.io/nuget/v/ProjectVersionUpdater?style=flat)](https://www.nuget.org/packages/ProjectVersionUpdater)
+
 In a solution of multiple projects connected by project references that are releasable as NuGet packages it is challenging to version each project correctly: At NuGet package creation project references are converted to package references. In the process of updating a project it is therefore crucial to also update the version of all projects that depend on it. Given you have the following project graph `A <== B <== C` with project B dependening on project A and project C depending on project B. In case you need to update project A you automatically have to update project B and C to make them use the correct NuGet package version of the updated project A. When done by hand this update process is time-consuming and error-prone. This tool helps you achive this task fast and reliably.  
 
 Example usage:
