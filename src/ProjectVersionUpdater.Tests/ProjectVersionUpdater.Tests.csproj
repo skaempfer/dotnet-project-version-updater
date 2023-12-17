@@ -22,4 +22,16 @@
         <ProjectReference Include="..\ProjectVersionUpdater\ProjectVersionUpdater.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="MultiTargetTestData\A.csproj">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="MultiTargetTestData\B.csproj">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="MultiTargetTestData\MultiTargetTest.sln">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
