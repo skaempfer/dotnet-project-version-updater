@@ -18,8 +18,14 @@
         <Description>dotnet cli tool for updating project versions and project versions of dependent projects within a Visual Studio Solution.</Description>
         <PackageTags>projectversion version update dotnet tool</PackageTags>
         <RepositoryType>Git</RepositoryType>
-        <RepositoryUrl></RepositoryUrl>
+        <RepositoryUrl>https://github.com/skaempfer/dotnet-project-version-updater</RepositoryUrl>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
