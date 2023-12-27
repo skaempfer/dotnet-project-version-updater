@@ -1,4 +1,4 @@
-name: Test
+name: Run tests
 run-name: Running tests for ProjectVersionUpdater
 on: [push]
 jobs:
