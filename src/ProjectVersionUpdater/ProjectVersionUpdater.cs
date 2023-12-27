@@ -53,10 +53,10 @@ public class ProjectVersionUpdater
         this.PrereleaseScheme = prereleaseScheme;
         this.ProjectAdapter = projectAdapter;
 
-        List<Microsoft.CodeAnalysis.Project> projects = new List<Microsoft.CodeAnalysis.Project>();
+        List<Microsoft.CodeAnalysis.Project> projects = new();
         foreach (string projectPath in projectsToUpdate)
         {
-            projects.Add(this.Solution.Projects.Single(p => p.FilePath.Equals(projectPath)));
+            projects.AddRange(this.Solution.Projects.Where(p => p.FilePath.Equals(projectPath)));
         }
 
         this.ProjectsToUpdate = projects;
@@ -77,16 +77,18 @@ public class ProjectVersionUpdater
 
     public void IncreaseVersion(VersionPart part, bool prerelease)
     {
-        foreach (Microsoft.CodeAnalysis.Project solutionProject in this.ProjectsToUpdate)
+        IReadOnlyCollection<Microsoft.Build.Evaluation.Project> msBuildProjects = this.ProjectAdapter.LoadBuildProjects(this.ProjectsToUpdate);
+        foreach (Microsoft.Build.Evaluation.Project msBuildProject in msBuildProjects)
         {
-            Microsoft.Build.Evaluation.Project msbuildProject = this.ProjectAdapter.LoadProject(solutionProject);
-            this.IncreaseVersion(msbuildProject, part, prerelease);
+            this.IncreaseVersion(msBuildProject, part, prerelease);
         }
     }
 
     private void IncreaseVersion(Microsoft.Build.Evaluation.Project project, VersionPart part, bool prerelease)
     {
         SemanticVersion currentVersion = project.GetVersion();
+
+        // TODO: Check if version prop is set: Either throw exception or create prop
 
         if (prerelease)
         {
@@ -106,7 +108,7 @@ public class ProjectVersionUpdater
     {
         foreach (Microsoft.CodeAnalysis.Project dependant in this.GetDependants())
         {
-            Microsoft.Build.Evaluation.Project msbuildDependant = this.ProjectAdapter.LoadProject(dependant);
+            Microsoft.Build.Evaluation.Project msbuildDependant = this.ProjectAdapter.LoadBuildProject(dependant);
             SemanticVersion dependantVersion = msbuildDependant.GetVersion();
 
             if (dependantVersion == null)
@@ -150,9 +152,9 @@ public class ProjectVersionUpdater
         List<Microsoft.Build.Evaluation.Project> msbuildProjects = new();
         foreach (Microsoft.CodeAnalysis.Project solutionProject in this.ProjectsToUpdate)
         {
-            msbuildProjects.Add(this.ProjectAdapter.LoadProject(solutionProject));
+            msbuildProjects.Add(this.ProjectAdapter.LoadBuildProject(solutionProject));
         }
-
+        
         return msbuildProjects.Any(p => p.GetVersion().IsPrerelease);
     }
 }

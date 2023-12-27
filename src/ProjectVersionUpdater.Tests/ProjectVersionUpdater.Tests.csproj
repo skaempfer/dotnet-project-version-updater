@@ -26,6 +26,9 @@
       <None Include="MultiTargetTestData\A.csproj">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Include="MultiTargetTestData\C.csproj">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
       <None Include="MultiTargetTestData\B.csproj">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

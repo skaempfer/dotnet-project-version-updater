@@ -6,6 +6,7 @@ using NuGet.Versioning;
 
 namespace ProjectVersionUpdater;
 
+// TODO: Require "Version" prop or allow "VersionPrefix" and "VerisonPostfix" as well?
 public static class ProjectExtensions
 {
     public static SemanticVersion GetVersion(this Project project)

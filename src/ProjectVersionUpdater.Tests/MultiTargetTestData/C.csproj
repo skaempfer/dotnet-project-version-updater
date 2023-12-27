@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5</TargetFrameworks>
+    <TargetFrameworks>net6</TargetFrameworks>
     <Version>1.0.0</Version>
-    <AssemblyName>B</AssemblyName>
+    <AssemblyName>C</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

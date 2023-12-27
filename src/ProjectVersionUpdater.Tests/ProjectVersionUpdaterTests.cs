@@ -151,8 +151,18 @@ internal class InMemoryProjectAdapter : IMsbuildProjectAdapter
         this.mapping = mapping;
     }
 
-    public Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject)
+    public Microsoft.Build.Evaluation.Project LoadBuildProject(Microsoft.CodeAnalysis.Project solutionProject)
         => this.mapping[solutionProject];
+
+    public IReadOnlyCollection<Microsoft.Build.Evaluation.Project> LoadBuildProjects(IEnumerable<Microsoft.CodeAnalysis.Project> solutionProjects)
+    {
+        List<Microsoft.Build.Evaluation.Project> msBuildProjects = new();
+        foreach(Microsoft.CodeAnalysis.Project solutionProject in solutionProjects)
+        {
+            msBuildProjects.Add(this.mapping[solutionProject]);
+        }
+        return msBuildProjects;
+    }
 
     public void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject)
     {

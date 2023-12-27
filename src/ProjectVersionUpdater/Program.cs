@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 using CommandLine;
 
-using Microsoft.Build.Construction;
 using Microsoft.Build.Locator;
 
 namespace ProjectVersionUpdater;
@@ -76,32 +74,4 @@ public static class Program
             return solutionPath ?? WalkUpDirectory(Directory.GetParent(directory).ToString(), ++levelsWalked);
         }
     }
-}
-
-public interface IMsbuildProjectAdapter
-{
-    Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject);
-
-    void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject);
-}
-
-public class FileSystemProjectAdapter : IMsbuildProjectAdapter
-{
-    private readonly Microsoft.Build.Evaluation.ProjectCollection collection = new();
-
-    private readonly Dictionary<Microsoft.CodeAnalysis.Project, Microsoft.Build.Evaluation.Project> lookup = new();
-
-    public Microsoft.Build.Evaluation.Project LoadProject(Microsoft.CodeAnalysis.Project solutionProject)
-    {
-        if (!this.lookup.TryGetValue(solutionProject, out Microsoft.Build.Evaluation.Project buildProject))
-        {
-            buildProject = new Microsoft.Build.Evaluation.Project(ProjectRootElement.Open(solutionProject.FilePath, this.collection, preserveFormatting: true));
-            this.lookup.Add(solutionProject, buildProject);
-        }
-
-        return buildProject;
-    }
-
-    public void SaveProject(Microsoft.Build.Evaluation.Project msbuildProject)
-        => msbuildProject.Save();
 }
