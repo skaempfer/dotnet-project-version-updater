@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        <VersionPrefix>0.1.0</VersionPrefix>
+        <VersionPrefix>0.1.1</VersionPrefix>
         <AssemblyName>ProjectVersionUpdater</AssemblyName>
         <RootNamespace>ProjectVersionUpdater</RootNamespace>
         <VersionSuffix Condition="$(Configuration) == 'Continuous'">$([System.DateTime]::Now.ToString("yyyyMMddTHHmmss"))</VersionSuffix>
@@ -14,6 +14,7 @@
         
         <Authors>Sebastian Kämpfer</Authors>
         <License>MIT</License>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         
         <Description>dotnet cli tool for updating project versions and project versions of dependent projects within a Visual Studio Solution.</Description>
         <PackageTags>projectversion version update dotnet tool</PackageTags>
@@ -24,7 +25,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+      <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
