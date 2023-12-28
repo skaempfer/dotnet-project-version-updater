@@ -36,13 +36,14 @@ PS> dotnet update-project [options] <argument>
 
 ### Arguments
 
-- `ProjectPath` (required): The path to the project file to update
+- `ProjectPaths` (required): List of paths to the project files to update.
 
 ### Options
 
-- `-u` | `--update` (optional): Indicates which version part to increase: major, minor or patch. Defaults to major if omitted.
-- `-p` | `--prerelease` (optional):  Indicates if version update should be a prerelease. If no value is provided the naming schema defaults to.
-- `-n` | `--name` (optional): Use a custom prerelease label. If omitted the default prelease naming scheme is used: '<version>-[major|minor|patch].[number]'.
+- `-s` | `--solution-path` (optional): Path to the solution file the project(s) to update is/are part of. If omitted the next solution file relative to the first provided project path is used.
+- `-u` | `--update` (optional): Indicates which version part to increase: major, minor or patch. Defaults to 'patch' if omitted.
+- `-p` | `--prerelease` (optional):  Indicates if version update should be a prerelease.
+- `-n` | `--name` (optional): Use a custom name for prerelease label. If omitted the default naming scheme 'pre' is used.
 - `-d` | `--dependants` (optional): Indicates if all projects which are (transitevely) dependent on the project to update should be updated as well.
 
 ## Usage Examples
