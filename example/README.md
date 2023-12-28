@@ -8,8 +8,7 @@ The example shows the functionality of the Project Version Updater dotnet tool t
 
 ## Running the example
 
-1. Run `build-tool.ps1` to make a version of the build tool package available in the example workspace
-2. Run `dotnet tool install --no-cache --prerelease ProjectVersionUpdater` to install the tool in the example workspace
+1. Run `init-example.ps1` to make a version of the build tool package available in the example workspace
 3. Run `dotnet update-project --update major --dependants .\ProjectA\ProjectA.csproj`. This will
    1. Update the version of `Project A` to its next major version
    2. Update the version of `Project B` and `Project C` to their next bugfix version.
