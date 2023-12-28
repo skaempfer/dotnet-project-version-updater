@@ -41,7 +41,7 @@ public static class Program
             options.SolutionPath ??= GetContainingSolutionPath(options.ProjectPaths.First());
             Microsoft.CodeAnalysis.Solution solution = await workspace.OpenSolutionAsync(options.SolutionPath);
 
-            IPrereleaseScheme prereleaseScheme = new CustomPrereleaseScheme(options.ReleaseName);
+            IPrereleaseScheme prereleaseScheme = new NamedPrereleaseScheme(options.ReleaseName);
 
             ProjectVersionUpdaterFactory updaterFactory = new ProjectVersionUpdaterFactory(solution, prereleaseScheme);
 

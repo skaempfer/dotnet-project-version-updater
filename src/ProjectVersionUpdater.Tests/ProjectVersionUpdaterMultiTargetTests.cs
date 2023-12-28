@@ -70,7 +70,7 @@ namespace ProjectVersionUpdater.Tests
         {
             using Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace workspace = Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create();
             Microsoft.CodeAnalysis.Solution solution = await workspace.OpenSolutionAsync(Path.GetFullPath(solutionPath));
-            IPrereleaseScheme prereleaseScheme = new CustomPrereleaseScheme("test");
+            IPrereleaseScheme prereleaseScheme = new NamedPrereleaseScheme("test");
             ProjectVersionUpdaterFactory updaterFactory = new ProjectVersionUpdaterFactory(solution, prereleaseScheme);
 
             return updaterFactory;

@@ -2,17 +2,12 @@
 
 namespace ProjectVersionUpdater;
 
-public interface IPrereleaseScheme
-{
-    SemanticVersion Next(SemanticVersion version, VersionPart part);
-}
-
-public class CustomPrereleaseScheme : IPrereleaseScheme
+public class NamedPrereleaseScheme : IPrereleaseScheme
 {
     private readonly string name;
     private readonly ReleaseLabelParser labelParser;
 
-    public CustomPrereleaseScheme(string name)
+    public NamedPrereleaseScheme(string name)
     {
         this.name = name;
         this.labelParser = new ReleaseLabelParser(name);

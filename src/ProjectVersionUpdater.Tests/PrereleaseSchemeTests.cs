@@ -13,7 +13,7 @@ public class PrereleaseSchemeTests
     public void Next_CustomSchemeMajorVersion_NextMajor(string initial, string expected)
     {
         // Arrange
-        CustomPrereleaseScheme sut = new CustomPrereleaseScheme("xyz");
+        NamedPrereleaseScheme sut = new NamedPrereleaseScheme("xyz");
 
         // Act
         SemanticVersion actual = sut.Next(SemanticVersion.Parse(initial), VersionPart.Major);
@@ -29,7 +29,7 @@ public class PrereleaseSchemeTests
     public void Next_CustomSchemeMinorVersion_NextMinor(string initial, string expected)
     {
         // Arrange
-        CustomPrereleaseScheme sut = new CustomPrereleaseScheme("xyz");
+        NamedPrereleaseScheme sut = new NamedPrereleaseScheme("xyz");
 
         // Act
         SemanticVersion actual = sut.Next(SemanticVersion.Parse(initial), VersionPart.Minor);
@@ -45,7 +45,7 @@ public class PrereleaseSchemeTests
     public void Next_CustomSchemePatchVersion_NextPatch(string initial, string expected)
     {
         // Arrange
-        CustomPrereleaseScheme sut = new CustomPrereleaseScheme("xyz");
+        NamedPrereleaseScheme sut = new NamedPrereleaseScheme("xyz");
 
         // Act
         SemanticVersion actual = sut.Next(SemanticVersion.Parse(initial), VersionPart.Patch);

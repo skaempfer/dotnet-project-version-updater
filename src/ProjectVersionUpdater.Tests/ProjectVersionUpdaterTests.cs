@@ -40,7 +40,7 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(version);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new NamedPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseVersion(update, prerelease);
@@ -58,7 +58,7 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(dependencyVersion, dependantVersion);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(this.solutionProjectB, this.solution, new NamedPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseDependantsVersion();
@@ -76,7 +76,7 @@ public class ProjectVersionUpdaterTests
     {
         // Arrange
         this.SetupTestData(dependency1Version, dependency2Version, dependantVersion);
-        ProjectVersionUpdater sut = new ProjectVersionUpdater(new[] { this.solutionProjectB, this.solutionProjectC }, this.solution, new CustomPrereleaseScheme("pre"), this.projectAdapter);
+        ProjectVersionUpdater sut = new ProjectVersionUpdater(new[] { this.solutionProjectB, this.solutionProjectC }, this.solution, new NamedPrereleaseScheme("pre"), this.projectAdapter);
 
         // Act
         sut.IncreaseDependantsVersion();
