@@ -31,13 +31,13 @@ public class FileSystemProjectAdapter : IMsbuildProjectAdapter
 
     public IReadOnlyCollection<MsBuildProject> LoadBuildProjects(IEnumerable<RoslynProject> solutionProjects)
     {
-        foreach(RoslynProject roslynProject in solutionProjects)
+        foreach (RoslynProject roslynProject in solutionProjects)
         {
             this.LoadMsBuildProject(roslynProject);
         }
 
         List<MsBuildProject> msBuildProjects = new();
-        foreach(RoslynProject project in solutionProjects)
+        foreach (RoslynProject project in solutionProjects)
         {
             msBuildProjects.Add(this.loadedMsBuildProjects[project]);
         }
@@ -55,7 +55,7 @@ public class FileSystemProjectAdapter : IMsbuildProjectAdapter
         }
 
         MsBuildProject loadedMsBuildProject = this.loadedMsBuildProjects.Values.SingleOrDefault(x => x.FullPath.Equals(roslynProject.FilePath));
-        loadedMsBuildProject??= new MsBuildProject(ProjectRootElement.Open(roslynProject.FilePath, this.collection, preserveFormatting: true));
+        loadedMsBuildProject ??= new MsBuildProject(ProjectRootElement.Open(roslynProject.FilePath, this.collection, preserveFormatting: true));
 
         this.loadedMsBuildProjects.Add(roslynProject, loadedMsBuildProject);
     }

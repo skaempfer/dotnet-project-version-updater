@@ -154,7 +154,7 @@ public class ProjectVersionUpdater
         {
             msbuildProjects.Add(this.ProjectAdapter.LoadBuildProject(solutionProject));
         }
-        
+
         return msbuildProjects.Any(p => p.GetVersion().IsPrerelease);
     }
 }

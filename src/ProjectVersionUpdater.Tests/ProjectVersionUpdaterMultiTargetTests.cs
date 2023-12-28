@@ -34,14 +34,14 @@ namespace ProjectVersionUpdater.Tests
         private void CreateTestDataWorkingCopy(string workingCopyDirectory)
         {
             string testDataDirectory = Path.GetFullPath("./MultiTargetTestData/");
-            
+
             if (Directory.Exists(workingCopyDirectory))
             {
                 Directory.Delete(workingCopyDirectory, recursive: true);
             }
             Directory.CreateDirectory(workingCopyDirectory);
 
-            foreach(string sourceFile in Directory.GetFiles(testDataDirectory))
+            foreach (string sourceFile in Directory.GetFiles(testDataDirectory))
             {
                 File.Copy(sourceFile, Path.Combine(workingCopyDirectory, Path.GetFileName(sourceFile)));
             }
@@ -58,7 +58,7 @@ namespace ProjectVersionUpdater.Tests
 
             ProjectCollection projectCollection = new();
             MsBuildProject projectA = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "A.csproj")), null, null, projectCollection);
-            MsBuildProject projectB = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "B.csproj")),null, null, projectCollection);
+            MsBuildProject projectB = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "B.csproj")), null, null, projectCollection);
             MsBuildProject projectC = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "C.csproj")), null, null, projectCollection);
 
             Assert.Equal("2.0.0", projectA.GetVersion().ToString());
