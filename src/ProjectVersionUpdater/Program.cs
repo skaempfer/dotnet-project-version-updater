@@ -41,13 +41,15 @@ public static class Program
             options.SolutionPath ??= GetContainingSolutionPath(options.ProjectPaths.First());
             Microsoft.CodeAnalysis.Solution solution = await workspace.OpenSolutionAsync(options.SolutionPath);
 
-            IPrereleaseScheme prereleaseScheme = new NamedPrereleaseScheme(options.ReleaseName);
+            options.PrereleaseName ??= "pre";
+            IPrereleaseScheme prereleaseScheme = new NamedPrereleaseScheme(options.PrereleaseName);
 
             ProjectVersionUpdaterFactory updaterFactory = new ProjectVersionUpdaterFactory(solution, prereleaseScheme);
 
             ProjectVersionUpdater updater = updaterFactory.Create(options.ProjectPaths);
 
-            updater.IncreaseVersion(options.UpdatePart, options.Prerelease);
+            options.UpdatePart ??= VersionPart.Patch;
+            updater.IncreaseVersion(options.UpdatePart.Value, options.IsPrerelease);
 
             if (options.UpdateDependants)
             {
