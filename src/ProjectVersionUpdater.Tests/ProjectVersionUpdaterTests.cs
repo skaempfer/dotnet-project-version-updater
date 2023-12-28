@@ -1,25 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml;
-
-using Microsoft.Build.Locator;
 
 using Xunit;
 
 namespace ProjectVersionUpdater.Tests;
 
-public class ProjectVersionUpdaterTests
+public class ProjectVersionUpdaterTests : MsBuildTest
 {
-    static ProjectVersionUpdaterTests()
-    {
-        VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
-        if (!MSBuildLocator.IsRegistered)
-        {
-            MSBuildLocator.RegisterInstance(net6Instance);
-        }
-    }
-
     private Microsoft.CodeAnalysis.Solution solution;
     private IMsbuildProjectAdapter projectAdapter;
 

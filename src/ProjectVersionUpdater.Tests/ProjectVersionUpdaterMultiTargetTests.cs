@@ -12,17 +12,8 @@ using MsBuildProject = Microsoft.Build.Evaluation.Project;
 
 namespace ProjectVersionUpdater.Tests
 {
-    public class ProjectVersionUpdaterMultiTargetTests
+    public class ProjectVersionUpdaterMultiTargetTests : MsBuildTest
     {
-        static ProjectVersionUpdaterMultiTargetTests()
-        {
-            VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
-            if (!MSBuildLocator.IsRegistered)
-            {
-                MSBuildLocator.RegisterInstance(net6Instance);
-            }
-        }
-
         private readonly string testDataWorkingDirectory;
 
         public ProjectVersionUpdaterMultiTargetTests()

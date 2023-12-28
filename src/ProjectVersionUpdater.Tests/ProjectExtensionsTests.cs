@@ -1,8 +1,5 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Xml;
-
-using Microsoft.Build.Locator;
 
 using NuGet.Versioning;
 
@@ -10,17 +7,8 @@ using Xunit;
 
 namespace ProjectVersionUpdater.Tests;
 
-public class ProjectExtensionsTests
+public class ProjectExtensionsTests : MsBuildTest
 {
-    static ProjectExtensionsTests()
-    {
-        VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
-        if (!MSBuildLocator.IsRegistered)
-        {
-            MSBuildLocator.RegisterInstance(net6Instance);
-        }
-    }
-
     private readonly string nonVersionedProject = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
