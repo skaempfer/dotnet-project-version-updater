@@ -3,6 +3,9 @@ using System.Linq;
 
 using NuGet.Versioning;
 
+using RoslynProject = Microsoft.CodeAnalysis.Project;
+using MsBuildProject = Microsoft.Build.Evaluation.Project;
+
 namespace ProjectVersionUpdater;
 
 public class ProjectVersionUpdaterFactory
@@ -40,7 +43,7 @@ public class ProjectVersionUpdater
 
     public IMsbuildProjectAdapter ProjectAdapter { get; }
 
-    public IEnumerable<Microsoft.CodeAnalysis.Project> ProjectsToUpdate { get; }
+    public IEnumerable<RoslynProject> ProjectsToUpdate { get; }
 
     public ProjectVersionUpdater(string projectToUpdate, Microsoft.CodeAnalysis.Solution solution, IPrereleaseScheme prereleaseScheme, IMsbuildProjectAdapter projectAdapter)
         : this(new string[] { projectToUpdate }, solution, prereleaseScheme, projectAdapter)
@@ -53,7 +56,7 @@ public class ProjectVersionUpdater
         this.PrereleaseScheme = prereleaseScheme;
         this.ProjectAdapter = projectAdapter;
 
-        List<Microsoft.CodeAnalysis.Project> projects = new();
+        List<RoslynProject> projects = new();
         foreach (string projectPath in projectsToUpdate)
         {
             projects.AddRange(this.Solution.Projects.Where(p => p.FilePath.Equals(projectPath)));
@@ -62,12 +65,12 @@ public class ProjectVersionUpdater
         this.ProjectsToUpdate = projects;
     }
 
-    public ProjectVersionUpdater(Microsoft.CodeAnalysis.Project projectToUpdate, Microsoft.CodeAnalysis.Solution solution, IPrereleaseScheme prereleaseScheme, IMsbuildProjectAdapter projectAdapter)
-    : this(new Microsoft.CodeAnalysis.Project[] { projectToUpdate }, solution, prereleaseScheme, projectAdapter)
+    public ProjectVersionUpdater(RoslynProject projectToUpdate, Microsoft.CodeAnalysis.Solution solution, IPrereleaseScheme prereleaseScheme, IMsbuildProjectAdapter projectAdapter)
+    : this(new RoslynProject[] { projectToUpdate }, solution, prereleaseScheme, projectAdapter)
     {
     }
 
-    public ProjectVersionUpdater(IEnumerable<Microsoft.CodeAnalysis.Project> projectsToUpdate, Microsoft.CodeAnalysis.Solution solution, IPrereleaseScheme prereleaseScheme, IMsbuildProjectAdapter projectAdapter)
+    public ProjectVersionUpdater(IEnumerable<RoslynProject> projectsToUpdate, Microsoft.CodeAnalysis.Solution solution, IPrereleaseScheme prereleaseScheme, IMsbuildProjectAdapter projectAdapter)
     {
         this.Solution = solution;
         this.PrereleaseScheme = prereleaseScheme;
@@ -77,14 +80,14 @@ public class ProjectVersionUpdater
 
     public void IncreaseVersion(VersionPart part, bool prerelease)
     {
-        IReadOnlyCollection<Microsoft.Build.Evaluation.Project> msBuildProjects = this.ProjectAdapter.LoadBuildProjects(this.ProjectsToUpdate);
-        foreach (Microsoft.Build.Evaluation.Project msBuildProject in msBuildProjects)
+        IReadOnlyCollection<MsBuildProject> msBuildProjects = this.ProjectAdapter.LoadBuildProjects(this.ProjectsToUpdate);
+        foreach (MsBuildProject msBuildProject in msBuildProjects)
         {
             this.IncreaseVersion(msBuildProject, part, prerelease);
         }
     }
 
-    private void IncreaseVersion(Microsoft.Build.Evaluation.Project project, VersionPart part, bool prerelease)
+    private void IncreaseVersion(MsBuildProject project, VersionPart part, bool prerelease)
     {
         SemanticVersion currentVersion = project.GetVersion();
 
@@ -106,10 +109,10 @@ public class ProjectVersionUpdater
 
     public void IncreaseDependantsVersion()
     {
-        foreach (Microsoft.CodeAnalysis.Project dependant in this.GetDependants())
+        IReadOnlyCollection<MsBuildProject> dependants = this.ProjectAdapter.LoadBuildProjects(this.GetDependants());
+        foreach (MsBuildProject dependant in dependants)
         {
-            Microsoft.Build.Evaluation.Project msbuildDependant = this.ProjectAdapter.LoadBuildProject(dependant);
-            SemanticVersion dependantVersion = msbuildDependant.GetVersion();
+            SemanticVersion dependantVersion = dependant.GetVersion();
 
             if (dependantVersion == null)
             {
@@ -120,28 +123,28 @@ public class ProjectVersionUpdater
             if (this.IsPrerelease())
             {
                 SemanticVersion newDependantVersion = this.PrereleaseScheme.Next(dependantVersion, VersionPart.Patch);
-                msbuildDependant.SetVersion(newDependantVersion);
+                dependant.SetVersion(newDependantVersion);
             }
             else
             {
-                msbuildDependant.SetVersion(dependantVersion.IncreasePatch());
+                dependant.SetVersion(dependantVersion.IncreasePatch());
             }
 
-            this.ProjectAdapter.SaveProject(msbuildDependant);
+            this.ProjectAdapter.SaveProject(dependant);
         }
     }
 
-    private IEnumerable<Microsoft.CodeAnalysis.Project> GetDependants()
+    private IEnumerable<RoslynProject> GetDependants()
     {
         Microsoft.CodeAnalysis.ProjectDependencyGraph dependencyGraph = this.Solution.GetProjectDependencyGraph();
         HashSet<Microsoft.CodeAnalysis.ProjectId> dependantIds = new();
-        foreach (Microsoft.CodeAnalysis.Project project in this.ProjectsToUpdate)
+        foreach (RoslynProject project in this.ProjectsToUpdate)
         {
             IEnumerable<Microsoft.CodeAnalysis.ProjectId> projectDependants = dependencyGraph.GetProjectsThatTransitivelyDependOnThisProject(project.Id);
             dependantIds = dependantIds.Concat(new HashSet<Microsoft.CodeAnalysis.ProjectId>(projectDependants)).ToHashSet();
         }
 
-        IEnumerable<Microsoft.CodeAnalysis.Project> dependants = dependantIds.Select(id => this.Solution.GetProject(id));
+        IEnumerable<RoslynProject> dependants = dependantIds.Select(id => this.Solution.GetProject(id));
         dependants = dependants.Except(this.ProjectsToUpdate);
 
         return dependants;
@@ -149,8 +152,8 @@ public class ProjectVersionUpdater
 
     private bool IsPrerelease()
     {
-        List<Microsoft.Build.Evaluation.Project> msbuildProjects = new();
-        foreach (Microsoft.CodeAnalysis.Project solutionProject in this.ProjectsToUpdate)
+        List<MsBuildProject> msbuildProjects = new();
+        foreach (RoslynProject solutionProject in this.ProjectsToUpdate)
         {
             msbuildProjects.Add(this.ProjectAdapter.LoadBuildProject(solutionProject));
         }

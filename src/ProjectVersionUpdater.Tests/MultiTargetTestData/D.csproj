@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net5;net6</TargetFrameworks>
+    <Version>1.0.0</Version>
+    <AssemblyName>D</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".\A.csproj" />
+  </ItemGroup>
+
+</Project>

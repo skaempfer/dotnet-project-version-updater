@@ -51,10 +51,12 @@ namespace ProjectVersionUpdater.Tests
             MsBuildProject projectA = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "A.csproj")), null, null, projectCollection);
             MsBuildProject projectB = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "B.csproj")), null, null, projectCollection);
             MsBuildProject projectC = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "C.csproj")), null, null, projectCollection);
+            MsBuildProject projectD = new MsBuildProject(ProjectRootElement.Open(Path.Combine(this.testDataWorkingDirectory, "D.csproj")), null, null, projectCollection);
 
             Assert.Equal("2.0.0", projectA.GetVersion().ToString());
             Assert.Equal("1.0.1", projectB.GetVersion().ToString());
             Assert.Equal("1.0.1", projectC.GetVersion().ToString());
+            Assert.Equal("1.0.1", projectD.GetVersion().ToString());
         }
 
         private async Task<ProjectVersionUpdaterFactory> CreateFactoryAsync(string solutionPath)
