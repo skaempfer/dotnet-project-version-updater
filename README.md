@@ -17,7 +17,7 @@ PS> dotnet update-project --update minor --prerelease --dependants .\ExampleProj
 
 ## Prerequisites
 
-- .NET >= 6.0.413
+- .NET >= 8.0.100
 - PowerShell Core is recommended for running all commands in this repository
 
 ## Installation
