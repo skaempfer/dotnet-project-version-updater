@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8</TargetFramework>
-        <Version>0.5.0</Version>
+        <Version>1.0.0</Version>
         <AssemblyName>ProjectVersionUpdater</AssemblyName>
         <RootNamespace>ProjectVersionUpdater</RootNamespace>
         <VersionSuffix Condition="$(Configuration) == 'Continuous'">$([System.DateTime]::Now.ToString("yyyyMMddTHHmmss"))</VersionSuffix>
