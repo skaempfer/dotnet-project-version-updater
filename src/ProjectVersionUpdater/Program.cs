@@ -14,7 +14,7 @@ public static class Program
 {
     static Program()
     {
-        VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 6);
+        VisualStudioInstance net6Instance = MSBuildLocator.QueryVisualStudioInstances().First(i => i.Version.Major == 8);
         if (!MSBuildLocator.IsRegistered)
         {
             MSBuildLocator.RegisterInstance(net6Instance);

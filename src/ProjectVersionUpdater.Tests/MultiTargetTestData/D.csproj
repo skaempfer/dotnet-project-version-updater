@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5;net6</TargetFrameworks>
+    <TargetFrameworks>net7;net8</TargetFrameworks>
     <Version>1.0.0</Version>
     <AssemblyName>D</AssemblyName>
   </PropertyGroup>

@@ -90,7 +90,7 @@ public class ProjectVersionUpdaterTests : MsBuildTest
     private readonly string projectTemplate = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
-    <TargetFrameworks>net6;net7</TargetFrameworks>
+    <TargetFrameworks>net7;net8</TargetFrameworks>
     <Version>{0}</Version>
 </PropertyGroup >
 </Project>

@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectA", "ProjectA\ProjectA.csproj", "{D2175A28-ECF8-46A1-AC17-B1258D5E85F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectA", "ProjectA\ProjectA.csproj", "{D2175A28-ECF8-46A1-AC17-B1258D5E85F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectB", "ProjectB\ProjectB.csproj", "{09822340-10D1-4DA4-AFB1-7038F321CA31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectB", "ProjectB\ProjectB.csproj", "{09822340-10D1-4DA4-AFB1-7038F321CA31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectC", "ProjectC\ProjectC.csproj", "{7A60AB17-AB30-4331-A85C-80D20EB60008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectC", "ProjectC\ProjectC.csproj", "{7A60AB17-AB30-4331-A85C-80D20EB60008}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65786232-931D-4123-AB44-624F93CB944A}"
+	ProjectSection(SolutionItems) = preProject
+		init-example.ps1 = init-example.ps1
+		nuget.config = nuget.config
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D2175A28-ECF8-46A1-AC17-B1258D5E85F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +34,8 @@ Global
 		{7A60AB17-AB30-4331-A85C-80D20EB60008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A60AB17-AB30-4331-A85C-80D20EB60008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A60AB17-AB30-4331-A85C-80D20EB60008}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

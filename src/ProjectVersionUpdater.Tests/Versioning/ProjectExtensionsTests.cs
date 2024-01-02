@@ -12,7 +12,7 @@ public class ProjectExtensionsTests : MsBuildTest
     private readonly string nonVersionedProject = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8</TargetFramework>
 </PropertyGroup >
 </Project>
 ";
@@ -20,7 +20,7 @@ public class ProjectExtensionsTests : MsBuildTest
     private readonly string versionedProjectTemplate = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
 <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8</TargetFramework>
     <Version>{0}</Version>
 </PropertyGroup >
 </Project>

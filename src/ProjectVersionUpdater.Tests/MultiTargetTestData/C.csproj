@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net6</TargetFrameworks>
+    <TargetFrameworks>net8</TargetFrameworks>
     <Version>1.0.0</Version>
     <AssemblyName>C</AssemblyName>
   </PropertyGroup>
